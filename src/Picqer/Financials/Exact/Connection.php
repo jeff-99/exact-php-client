@@ -574,6 +574,14 @@ class Connection
         }
 
         if ($includeDivision) {
+            // To support BETA endpoints replace {division} parameter with actual division number
+            if(strpos($endPoint, '{division}') !== false){
+                $endPoint = str_replace('{division}', $this->getCurrentDivisionNumber(), $endPoint);
+                return implode('/', [
+                    $this->getApiUrl(),
+                    $endPoint,
+                ]);
+            }
             return implode('/', [
                 $this->getApiUrl(),
                 $this->getCurrentDivisionNumber(),
